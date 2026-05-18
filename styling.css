@@ -76,12 +76,7 @@ li{
 }
 
 #filters button:hover {
-    background: #ddd;
-    transform: translateY(-1px);
-}
-
-#filters button:active {
-    transform: translateY(0px);
+    text-decoration: underline;
 }
 
 

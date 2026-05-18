@@ -73,12 +73,8 @@ li{
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    color: rgb(78, 47, 18);
 }
-
-#filters button:hover {
-    text-decoration: underline;
-}
-
 
 /* GALLERY GRID */
 #gallery {

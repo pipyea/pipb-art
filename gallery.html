@@ -1,46 +1,52 @@
 <!DOCTYPE html>
-<!--Gallery Page Page-->
-<html>
-    <head>
-        <title>pipyea art</title>
-        <link rel="stylesheet" href="styling.css">
-        <meta charset="UTF-8" name="viewport" 
-            content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    </head>
-    <body>
-        <!--Navigation bar-->
-        <div id="nav-placeholder">
-        </div>
-        <script>
-            $(function(){
-                $("#nav-placeholder").load("nav.html");
-            });
-        </script>
+<html lang="en">
 
-        <!--Gallery section-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <!-- Filter Buttons -->
-            <div id="filters">
-                <button onclick="filterGallery('all')">All</button>
-                <button onclick="filterGallery('extension')">MTG Extensions</button>
-                <button onclick="filterGallery('alter')">MTG Alters</button>
-                <button onclick="filterGallery('painting')">Paintings</button>
-                <button onclick="filterGallery('pencilwork')">Pencil Work</button>
-                <button onclick="filterGallery('digital')">Digital Work</button>
-            </div>
+    <title>pipyea art</title>
 
-        <!-- Gallery -->
-        <div id="gallery"></div>
+    <link rel="stylesheet" href="styling.css">
 
-        <!-- Popup Modal -->
-        <div id="lightbox">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <div id="nav-placeholder"></div>
+
+    <script>
+        $(function () {
+            $("#nav-placeholder").load("nav.html");
+        });
+    </script>
+
+    <!-- Filters -->
+    <div id="filters">
+        <button data-filter="all">All</button>
+        <button data-filter="extension">MTG Extensions</button>
+        <button data-filter="alter">MTG Alters</button>
+        <button data-filter="painting">Paintings</button>
+        <button data-filter="pencilwork">Pencil Work</button>
+        <button data-filter="digital">Digital Work</button>
+    </div>
+
+    <!-- Gallery -->
+    <div id="gallery"></div>
+
+    <!-- Lightbox -->
+    <div id="lightbox">
         <span id="close">&times;</span>
-        <img id="lightbox-img">
-        </div>
+        <img id="lightbox-img" alt="Expanded artwork">
+    </div>
 
-        <script>
+    <script>
+
         const images = [
+
+            // Alters
             { file: "alter1.jpg", categories: ["alter"] },
             { file: "alter2.jpg", categories: ["alter"] },
             { file: "alter3.jpg", categories: ["alter", "digital"] },
@@ -52,16 +58,19 @@
             { file: "alter9.jpg", categories: ["alter"] },
             { file: "alter10.jpg", categories: ["alter"] },
             { file: "alter11.jpg", categories: ["alter"] },
-        
+
+            // Extensions
             { file: "extension1.jpg", categories: ["extension"] },
             { file: "extension2.jpg", categories: ["extension"] },
             { file: "extension3.jpg", categories: ["extension"] },
             { file: "extension4.jpg", categories: ["extension"] },
 
+            // Paintings
             { file: "painting1.jpg", categories: ["painting"] },
             { file: "painting2.jpg", categories: ["painting"] },
             { file: "painting3.jpg", categories: ["painting"] },
 
+            // Pencil
             { file: "pencil1.jpg", categories: ["pencilwork"] },
             { file: "pencil2.jpg", categories: ["pencilwork"] },
             { file: "pencil3.jpg", categories: ["pencilwork"] },
@@ -69,49 +78,95 @@
             { file: "pencil5.jpg", categories: ["pencilwork"] },
             { file: "pencil6.jpg", categories: ["pencilwork"] },
 
+            // Digital
             { file: "digital1.jpg", categories: ["digital"] },
             { file: "digital2.jpg", categories: ["digital"] }
+
         ];
 
         const gallery = document.getElementById("gallery");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const closeBtn = document.getElementById("close");
 
+        // Load Gallery
         function loadGallery(category = "all") {
-    gallery.innerHTML = "";
 
-    images.forEach(image => {
+            gallery.innerHTML = "";
 
-        if (category === "all" || image.categories.includes(category)) {
+            const filteredImages = images.filter(image =>
+                category === "all" ||
+                image.categories.includes(category)
+            );
 
-            const img = document.createElement("img");
+            filteredImages.forEach(image => {
 
-            img.src = `images/${image.file}`;
+                const img = document.createElement("img");
 
-            img.onclick = function () {
-                document.getElementById("lightbox").style.display = "flex";
-                document.getElementById("lightbox-img").src = img.src;
-            };
+                img.src = `images/${image.file}`;
+                img.alt = image.file;
 
-            gallery.appendChild(img);
+                // PERFORMANCE
+                img.loading = "lazy";
+                img.decoding = "async";
+
+                // FALLBACK IF IMAGE FAILS
+                img.onerror = function () {
+                    console.error(`Failed to load: ${image.file}`);
+                    img.style.display = "none";
+                };
+
+                // OPEN LIGHTBOX
+                img.addEventListener("click", () => {
+                    lightbox.style.display = "flex";
+                    lightboxImg.src = img.src;
+                });
+
+                gallery.appendChild(img);
+
+            });
+
         }
-    });
-}
 
-        function filterGallery(category) {
-            loadGallery(category);
+        // Filter Buttons
+        document.querySelectorAll("#filters button").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const category = button.dataset.filter;
+
+                loadGallery(category);
+
+            });
+
+        });
+
+        // Close Lightbox
+        function closeLightbox() {
+            lightbox.style.display = "none";
+            lightboxImg.src = "";
         }
 
+        closeBtn.addEventListener("click", closeLightbox);
+
+        // Close if background clicked
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // ESC key support
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                closeLightbox();
+            }
+        });
+
+        // Initial Load
         loadGallery();
 
-        document.getElementById("close").onclick = function () {
-            document.getElementById("lightbox").style.display = "none";
-        };
+    </script>
 
-        document.getElementById("lightbox").onclick = function (e) {
-
-            if (e.target.id === "lightbox") {
-            document.getElementById("lightbox").style.display = "none";
-            }
-    };
-        </script>
-    </body>
+</body>
 </html>

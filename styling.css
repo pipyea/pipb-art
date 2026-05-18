@@ -1,0 +1,130 @@
+header {
+    display: flex;
+    padding: 0.5rem 0rem 0.5rem 0.75rem;
+    background-color: rgb(255, 159, 191);
+    border-radius: 1rem;
+    color: rgb(78, 47, 18);
+}
+
+.name {
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    font-size: xx-large;
+}
+
+.subName {
+    margin-top: 0.15rem;
+    font-size: large;
+    margin-left: 0.5rem;
+}
+
+nav {
+    display: flex;
+    margin-left: auto;
+    margin-right: 0.75rem;
+    position: sticky;
+    top: 0;
+}
+
+.navList {
+    display: flex;
+    list-style: none;
+}
+
+.navItem {
+    padding: 0.75rem;
+    margin: 0.75rem;
+    font-size: large;
+    background-color: rgb(255, 180, 205);
+    border-radius: 1rem;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: rgb(78, 47, 18);
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+    color: rgb(78, 47, 18);
+}
+
+body {
+    background-color: rgb(255, 180, 205);
+}
+
+li{
+    list-style-type:none;
+    margin-right:10px;
+    margin-bottom:10px;
+    float:left;
+}
+
+#gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            padding: 16px;
+        }
+        
+#gallery img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }#filters {
+    text-align: center;
+    margin: 20px;
+}
+
+#filters button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+#gallery img {
+    width: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* LIGHTBOX */
+
+#lightbox {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+
+    justify-content: center;
+    align-items: center;
+}
+
+#lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+#close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}

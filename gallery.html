@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--Gallery Page Page-->
+<html>
+    <head>
+        <title>pipyea art</title>
+        <link rel="stylesheet" href="styling.css">
+        <meta charset="UTF-8" name="viewport" 
+            content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    </head>
+    <body>
+        <!--Navigation bar-->
+        <div id="nav-placeholder">
+        </div>
+        <script>
+            $(function(){
+                $("#nav-placeholder").load("nav.html");
+            });
+        </script>
+
+        <!--Gallery section-->
+
+            <!-- Filter Buttons -->
+            <div id="filters">
+                <button onclick="filterGallery('all')">All</button>
+                <button onclick="filterGallery('extension')">MTG Extensions</button>
+                <button onclick="filterGallery('alter')">MTG Alters</button>
+                <button onclick="filterGallery('painting')">Paintings</button>
+                <button onclick="filterGallery('pencilwork')">Pencil Work</button>
+                <button onclick="filterGallery('digital')">Digital Work</button>
+            </div>
+
+        <!-- Gallery -->
+        <div id="gallery"></div>
+
+        <!-- Popup Modal -->
+        <div id="lightbox">
+        <span id="close">&times;</span>
+        <img id="lightbox-img">
+        </div>
+
+        <script>
+        const images = [
+            { file: "alter1.jpg", categories: ["alter"] },
+            { file: "alter2.jpg", categories: ["alter"] },
+            { file: "alter3.jpg", categories: ["alter", "digital"] },
+            { file: "alter4.jpg", categories: ["alter"] },
+            { file: "alter5.jpg", categories: ["alter"] },
+            { file: "alter6.jpg", categories: ["alter"] },
+            { file: "alter7.jpg", categories: ["alter"] },
+            { file: "alter8.jpg", categories: ["alter"] },
+            { file: "alter9.jpg", categories: ["alter"] },
+            { file: "alter10.jpg", categories: ["alter"] },
+            { file: "alter11.jpg", categories: ["alter"] },
+        
+            { file: "extension1.jpg", categories: ["extension"] },
+            { file: "extension2.jpg", categories: ["extension"] },
+            { file: "extension3.jpg", categories: ["extension"] },
+            { file: "extension4.jpg", categories: ["extension"] },
+
+            { file: "painting1.jpg", categories: ["painting"] },
+            { file: "painting2.jpg", categories: ["painting"] },
+            { file: "painting3.jpg", categories: ["painting"] },
+
+            { file: "pencil1.jpg", categories: ["pencilwork"] },
+            { file: "pencil2.jpg", categories: ["pencilwork"] },
+            { file: "pencil3.jpg", categories: ["pencilwork"] },
+            { file: "pencil4.jpg", categories: ["pencilwork"] },
+            { file: "pencil5.jpg", categories: ["pencilwork"] },
+            { file: "pencil6.jpg", categories: ["pencilwork"] },
+
+            { file: "digital1.jpg", categories: ["digital"] },
+            { file: "digital2.jpg", categories: ["digital"] }
+        ];
+
+        const gallery = document.getElementById("gallery");
+
+        function loadGallery(category = "all") {
+    gallery.innerHTML = "";
+
+    images.forEach(image => {
+
+        if (category === "all" || image.categories.includes(category)) {
+
+            const img = document.createElement("img");
+
+            img.src = `images/${image.file}`;
+
+            img.onclick = function () {
+                document.getElementById("lightbox").style.display = "flex";
+                document.getElementById("lightbox-img").src = img.src;
+            };
+
+            gallery.appendChild(img);
+        }
+    });
+}
+
+        function filterGallery(category) {
+            loadGallery(category);
+        }
+
+        loadGallery();
+
+        document.getElementById("close").onclick = function () {
+            document.getElementById("lightbox").style.display = "none";
+        };
+
+        document.getElementById("lightbox").onclick = function (e) {
+
+            if (e.target.id === "lightbox") {
+            document.getElementById("lightbox").style.display = "none";
+            }
+    };
+        </script>
+    </body>
+</html>
